@@ -7,8 +7,8 @@
 <body>
     <p>hello world</p>
     <script>
-        const socket =io("/custom-namespace");
-        socket.on("customEvent",(data)=>{
+        const socket =io();
+        socket.on("connectedRoom",(data)=>{
             document.body.innerHTML="";
             document.write(data)
         })
