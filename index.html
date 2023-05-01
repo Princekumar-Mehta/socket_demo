@@ -8,6 +8,14 @@
     <p>hello world</p>
     <script>
         const socket =io();
+        socket.on("message",(msg)=>{
+            alert("msg from server: "+msg)
+        })
+        socket.on("myCustomEvent",(data)=>{
+            alert("data from server: "+JSON.stringify(data))
+            socket.emit("eventFromClient",{data:"I recieved your data"})
+        })
+   
     </script>
 </body>
 </html>

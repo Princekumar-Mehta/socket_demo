@@ -21,6 +21,13 @@ app.get("/",(request,response)=>{
 
 socketio.on("connection",(socket)=>{
     console.log("one user is connected");
+    setTimeout(()=>{
+        // socket.send("sent msg from server side by pre-reserved event");
+        socket.emit("myCustomEvent",{data:" this is data from server using custom event"})
+    },3000)
+    socket.on("eventFromClient",(data)=>{
+        console.log("data from user",JSON.stringify(data));
+    })
     socket.on("disconnect",()=>{
         console.log("one user disconnected");
     })
