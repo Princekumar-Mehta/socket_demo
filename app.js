@@ -18,24 +18,13 @@ app.get("/",(request,response)=>{
     const filename = "index.html";
   response.sendFile(filename,options)
 })
-let users = 0;
-socketio.on("connection",(socket)=>{
+
+const cnsp = socketio.of("/custom-namespace");
+cnsp.on("connection",(socket)=>{
     console.log("one user is connected");
-    users++;
-    socket.emit("newUserConnect",{
-        message:"Welcome"
-    })
-    socket.broadcast.emit("newUserConnect",{
-        message:users+" users connected"
-    })
-    socket.on("disconnect",()=>{
+   cnsp.emit("customEvent","Tester event call")
+    cnsp.on("disconnect",()=>{
         users--;
-        // socketio.sockets.emit("broadcast_name",{
-        //     message:users+" users connected"
-        // })
-        socket.broadcast.emit("newUserConnect",{
-            message:users+" users connected"
-        })
         console.log("one user disconnected");
     })
 })

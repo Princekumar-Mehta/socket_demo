@@ -7,14 +7,11 @@
 <body>
     <p>hello world</p>
     <script>
-        const socket =io();
-    //     socket.on("broadcast_name",(data)=>{
-    //       document.write(data.message)
-    //    })
-    socket.on("newUserConnect",(data)=>{
-        document.body.innerHTML=""
-    document.write(data.message)
-    })
+        const socket =io("/custom-namespace");
+        socket.on("customEvent",(data)=>{
+            document.body.innerHTML="";
+            document.write(data)
+        })
     </script>
 </body>
 </html>
