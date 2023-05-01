@@ -18,17 +18,24 @@ app.get("/",(request,response)=>{
     const filename = "index.html";
   response.sendFile(filename,options)
 })
-
+let users = 0;
 socketio.on("connection",(socket)=>{
     console.log("one user is connected");
-    setTimeout(()=>{
-        // socket.send("sent msg from server side by pre-reserved event");
-        socket.emit("myCustomEvent",{data:" this is data from server using custom event"})
-    },3000)
-    socket.on("eventFromClient",(data)=>{
-        console.log("data from user",JSON.stringify(data));
+    users++;
+    socket.emit("newUserConnect",{
+        message:"Welcome"
+    })
+    socket.broadcast.emit("newUserConnect",{
+        message:users+" users connected"
     })
     socket.on("disconnect",()=>{
+        users--;
+        // socketio.sockets.emit("broadcast_name",{
+        //     message:users+" users connected"
+        // })
+        socket.broadcast.emit("newUserConnect",{
+            message:users+" users connected"
+        })
         console.log("one user disconnected");
     })
 })
